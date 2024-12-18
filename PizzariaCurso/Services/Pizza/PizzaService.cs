@@ -1,6 +1,6 @@
 ﻿namespace PizzariaCurso.Services.Pizza
 {
-    public class PizzaService
+    public class PizzaService : IPizzaInterface
     {
     }
 }
