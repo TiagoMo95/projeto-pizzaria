@@ -1,4 +1,5 @@
-﻿using PizzariaCurso.Data;
+﻿using Microsoft.EntityFrameworkCore;
+using PizzariaCurso.Data;
 using PizzariaCurso.Dto;
 using PizzariaCurso.Models;
 
@@ -58,6 +59,23 @@ namespace PizzariaCurso.Services.Pizza
             {
                 throw new Exception(ex.Message, ex);
             }
+        }
+
+        public async Task<List<PizzaModel>> GetPizzas()
+        {
+            try
+            {
+                return await _context.Pizzas.ToListAsync();
+
+            }catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        public Task<PizzaModel> GetPizzaPorId(int id)
+        {
+            throw new NotImplementedException();
         }
     }
 }
