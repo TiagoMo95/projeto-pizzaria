@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using PizzariaCurso.Dto;
+using PizzariaCurso.Models;
 using PizzariaCurso.Services.Pizza;
 
 namespace PizzariaCurso.Controllers
@@ -24,6 +25,12 @@ namespace PizzariaCurso.Controllers
             return View();
         }
 
+        public async Task<IActionResult> Editar(int id)
+        {
+            var pizza = await _pizzaInterface.GetPizzaPorId(id);
+            return View(pizza);
+        }
+
         [HttpPost]
         public async Task<IActionResult> Cadastrar(PizzaCriacaoDto pizzaCriacaoDto, IFormFile foto)
         {
@@ -35,6 +42,20 @@ namespace PizzariaCurso.Controllers
             else
             {
                 return View(pizzaCriacaoDto);
+            }
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Editar(PizzaModel pizzaModel, IFormFile? foto)
+        {
+            if (ModelState.IsValid)
+            {
+                var pizza = await _pizzaInterface.EditarPizza(pizzaModel, foto);
+                return RedirectToAction("Index", "Pizza");
+            }
+            else
+            {
+                return View(pizzaModel);
             }
         }
     }

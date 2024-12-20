@@ -73,9 +73,60 @@ namespace PizzariaCurso.Services.Pizza
             }
         }
 
-        public Task<PizzaModel> GetPizzaPorId(int id)
+        public async Task<PizzaModel> GetPizzaPorId(int id)
         {
-            throw new NotImplementedException();
+            try
+            {
+                return await _context.Pizzas.FirstOrDefaultAsync(pizza => pizza.Id == id);
+
+            }catch(Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        public async Task<PizzaModel> EditarPizza(PizzaModel pizza, IFormFile? foto)
+        {
+            try
+            {
+                var pizzaBanco = await _context.Pizzas.AsNoTracking().FirstOrDefaultAsync(pizzaBD => pizzaBD.Id == pizza.Id);
+                var nomeCaminhoImagem = "";
+
+                if (foto != null)
+                {
+                    string caminhoCapaExistente = _sistema + "\\imagem\\" + pizzaBanco.Capa;
+                    
+                    if (File.Exists(caminhoCapaExistente))
+                    {
+                        File.Delete(caminhoCapaExistente);
+                    }
+
+                    nomeCaminhoImagem = GeraCaminhoArquivo(foto);
+                }
+
+                pizzaBanco.Sabor = pizza.Sabor;
+                pizzaBanco.Descricao = pizza.Descricao;
+                pizzaBanco.Valor = pizza.Valor;
+
+                if (nomeCaminhoImagem != "")
+                {
+                    pizzaBanco.Capa = nomeCaminhoImagem;
+                }
+                else
+                {
+                    pizzaBanco.Capa = pizza.Capa;
+                }
+
+                _context.Update(pizzaBanco);
+                await _context.SaveChangesAsync();
+
+                return pizza;
+
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
         }
     }
 }
