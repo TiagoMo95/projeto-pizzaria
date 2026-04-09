@@ -5,8 +5,8 @@ Projeto desenvolvido com o objetivo de praticar desenvolvimento backend utilizan
 ## 🚀 Tecnologias utilizadas
 - C#
 - .NET / ASP.NET Core
-- SQL Server (ou outro banco que você usou)
-- Entity Framework (se usou)
+- SQL Server
+- Entity Framework
 - Git
 
 ## 📌 Funcionalidades
